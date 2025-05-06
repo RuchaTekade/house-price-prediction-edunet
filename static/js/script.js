@@ -8,16 +8,25 @@ document.getElementById('predictionForm').addEventListener('submit', function(e)
     priceDisplay.innerHTML = '<div class="loader"></div>';
     resultText.innerHTML = 'Calculating...';
     
-    // Get form data
-    const formData = {
-        size: document.getElementById('size').value,
-        bedrooms: document.getElementById('bedrooms').value,
-        bathrooms: document.getElementById('bathrooms').value,
-        parking: document.getElementById('parking').value,
-        location: document.getElementById('location').value,
-        furnish_status: document.getElementById('furnish_status').value,
-        guest_room: document.getElementById('guest_room').value
-    };
+    // Convert form values to numbers before sending
+const formData = {
+    size: parseFloat(document.getElementById('size').value),
+    bedrooms: parseInt(document.getElementById('bedrooms').value),
+    bathrooms: parseInt(document.getElementById('bathrooms').value),
+    parking: parseInt(document.getElementById('parking').value),
+    location: document.getElementById('location').value,
+    furnish_status: document.getElementById('furnish_status').value,
+    guest_room: document.getElementById('guest_room').value
+};
+
+if (isNaN(formData.size) || isNaN(formData.bedrooms) || 
+        isNaN(formData.bathrooms) || isNaN(formData.parking) ||
+        !formData.location || !formData.furnish_status || !formData.guest_room) {
+        priceDisplay.innerHTML = '!';
+        resultText.innerHTML = '<span style="color:red">Please fill all fields correctly!</span>';
+        return; // Stop if validation fails
+    }
+
     
     // Send prediction request
     fetch('/predict', {

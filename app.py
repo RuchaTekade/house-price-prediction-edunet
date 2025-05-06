@@ -83,8 +83,8 @@ def predict():
         prediction = model.predict([features])
         
         return jsonify({
-            "price": round(float(prediction[0]), 2),
-            "status": "success"
+         "prediction": round(float(prediction[0]), 2),  
+    "status": "success"
         })
 
     except ValueError as e:
